@@ -1,0 +1,26 @@
+# IntelliJ
+classes
+*.ipr
+*.iws
+.idea
+*.iml
+out/
+/artifacts/*
+
+.vscode
+
+build
+.gradle
+
+# MacOS
+.DS_Store
+
+# Eclipse
+.settings
+.classpath
+.project
+
+# Package Files
+*.jar
+*.war
+*.ear

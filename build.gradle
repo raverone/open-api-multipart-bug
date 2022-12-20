@@ -1,0 +1,75 @@
+plugins {
+    id 'java'
+    id 'groovy'
+    id 'org.springframework.boot' version '3.0.0'
+    id 'io.spring.dependency-management' version '1.1.0'
+    id 'org.openapi.generator' version '6.2.0'
+//    id 'org.openapi.generator' version '5.4.0'
+}
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+sourceSets {
+    main {
+        java {
+            srcDir "${buildDir}/generated/src/main/java"
+        }
+    }
+}
+
+openApiValidate {
+    inputSpec = "${projectDir}/src/main/resources/openapi-schema.yaml".toString()
+}
+
+openApiGenerate {
+    generatorName = "spring"
+    library = "spring-boot"
+    inputSpec = "${projectDir}/src/main/resources/openapi-schema.yaml".toString()
+    outputDir = "${buildDir}/generated/".toString()
+    globalProperties = [
+        skipFormModel        : "false"
+    ]
+    configOptions = [
+        useSpringBoot3       : "true",
+        useOptional          : "true",
+        swaggerDocketConfig  : "false",
+        performBeanValidation: "false",
+        useBeanValidation    : "false",
+        useTags              : "true",
+        singleContentTypes   : "false",
+        library              : "spring-boot",
+        basePackage          : "org.example.bug",
+        configPackage        : "org.example.bug",
+        apiPackage           : "org.example.bug.http.api",
+        modelPackage         : "org.example.bug.http.model",
+        invokerPackage       : "org.example.bug.http",
+        title                : rootProject.name,
+        dateLibrary          : "java8",
+        serializableModel    : "true",
+        artifactId           : rootProject.name,
+        interfaceOnly        : "true"
+    ]
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    implementation 'jakarta.servlet:jakarta.servlet-api:6.0.0'
+    implementation 'jakarta.validation:jakarta.validation-api:3.0.2'
+
+    implementation 'io.swagger.core.v3:swagger-annotations:2.2.7'
+
+    implementation 'org.openapitools:jackson-databind-nullable:0.2.4'
+
+    testImplementation 'org.spockframework:spock-spring:2.4-M1-groovy-4.0'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+test {
+    useJUnitPlatform()
+}
